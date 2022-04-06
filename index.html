@@ -8,45 +8,7 @@
   <meta name="author" content="hoskra">
   <script src="lib/p5.min.js" type="text/javascript" defer></script>
   <title>play-texture</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Courier New', Courier, monospace;
-      padding-left: 10px;
-    }
-    header {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-
-    }
-    main {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-    }
-    #transitionsContainer {
-      font-size: 10px;
-      list-style: none;
-      width: 300px;
-    }
-    #canvasContainer {
-      padding-bottom: 1em;
-    }
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      row-gap: 1em;
-      width: 500px;
-      margin: 0 0 0 auto;
-    }
-    button {
-      width: 100px;
-      height: 30px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -56,7 +18,10 @@
     <main>
 
       <div id="player">
-        <div id="canvasContainer"></div>
+        <div class="center">
+          <h3>Player</h3>
+          <div id="canvasContainer"><span id="Loading">... Loading ... </span></div>
+        </div>
         <div class="controls">
           <div class="tint">
             <h3>Crossfade frames option</h3>
@@ -73,6 +38,10 @@
           <p>Current frame: <span id="frame">0</span></p>
           <button id="jump">random jump</button>
         </div>
+        <div class="center">
+          <h3>Transition matrix</h3>
+          <img id="transitionMatrix" />
+        </div>
       </div>
       <div>
         <h3>List of transitions</h3>
@@ -84,7 +53,7 @@
 <script>
 
   const skeleton = {
-    filename: "skeleton_dance_6_0.999_2_0.9__F:125_T:1025.txt",
+    filename: "skeleton_dance_6_0.999_2_0.9__F:125_T:1025",
     folder: "skeleton_dance",
     extension: "jpg",
     from: 950,
@@ -92,7 +61,7 @@
     slice: true
   }
   const clock = {
-    filename: "clock_2_0.999_2_0.5__F:37_T:37.txt",
+    filename: "clock_2_0.999_2_0.5__F:37_T:37",
     folder: "clock",
     extension: "png",
     from: 1,
@@ -100,7 +69,7 @@
     slice: false
   }
   const cartoon = {
-    filename: "cartoon_3_0.999_2_0.6__F:137_T:137.txt",
+    filename: "cartoon_3_0.999_2_0.6__F:137_T:137",
     folder: "cartoon",
     extension: "bmp",
     from: 1301,
@@ -126,7 +95,10 @@ let frame_cnt = to - from;
 let frame_id = document.getElementById('frame');
 let transitions = [];
 let transitions_container = document.getElementById('transitionsContainer')
-let file_name = choice['filename'];
+let file_name = 'data/' + choice['filename'] + '.txt';
+let img_file_name = 'data/' + choice['filename'] + '.png';
+
+document.getElementById("transitionMatrix").src = img_file_name;
 
 let jump = document.getElementById('jump')
 let Linear = document.getElementById("Linear")
@@ -216,8 +188,11 @@ function preload() {
 }
 
 function setup() {
+  W = images_array[0].width;
+  H = images_array[0].height;
   let canvas = createCanvas(W, H);
   canvas.parent("canvasContainer");
+  document.getElementById("Loading").style.display = "none";
 }
 
 let previousLi = document.getElementById("0")
