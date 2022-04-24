@@ -35,8 +35,8 @@ let frame_cnt = to - from;
 let frame_id = document.getElementById('frame');
 let transitions = [];
 let transitions_container = document.getElementById('transitionsContainer')
-let file_name = 'data/' + choice['filename'] + '.txt';
-let img_file_name = 'data/' + choice['filename'] + '.png';
+let file_name = 'out/' + choice['filename'] + '.txt';
+let img_file_name = 'out/' + choice['filename'] + '.png';
 
 document.getElementById("transitionMatrix").src = img_file_name;
 
